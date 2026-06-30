@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/it-admin/Downloads/**)",
+      "Bash(grep -iE \"\\\\.\\(png|jpg|jpeg|svg|gif|webp\\)$\")",
+      "Bash(python3 -)",
+      "Bash(chromium --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=480,760 --screenshot=shot_mobile.png preview.html)",
+      "Bash(chromium --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1100,760 --screenshot=shot_desktop.png preview.html)"
+    ]
+  }
+}
