@@ -8,16 +8,18 @@
 
 :root {
     --navy:        #1b3a5f;
-    --navy-deep:   #142c48;
+    --navy-deep:   #102539;
     --blue:        #5b9bd5;
+    --blue-bright: #3d8bd4;
     --blue-light:  #8fc0e8;
     --accent:      #e3342f;
+    --accent-soft: #ff6b5e;
     --ink:         #2b3a4a;
     --muted:       #6b7a8d;
     --line:        #e3e9f0;
     --card-bg:     #ffffff;
-    --radius:      16px;
-    --shadow:      0 18px 45px -12px rgba(27, 58, 95, 0.35);
+    --radius:      20px;
+    --shadow:      0 30px 70px -22px rgba(16, 37, 57, 0.55);
 }
 
 * {
@@ -35,13 +37,26 @@ body {
     font-family: "Segoe UI", Verdana, Arial, sans-serif;
     color: var(--ink);
     line-height: 1.55;
-    background: linear-gradient(135deg, #eaf2fb 0%, #f6f9fd 45%, #ffffff 100%);
-    background-attachment: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px 16px;
+    padding: 32px 18px;
     -webkit-text-size-adjust: 100%;
+    /* Vibrant, layered brand background */
+    background-color: #eaf2fb;
+    background-image:
+        radial-gradient(900px 600px at 12% 18%, rgba(91, 155, 213, 0.32), transparent 60%),
+        radial-gradient(800px 560px at 88% 12%, rgba(227, 52, 47, 0.16), transparent 55%),
+        radial-gradient(900px 700px at 78% 92%, rgba(27, 58, 95, 0.30), transparent 60%),
+        linear-gradient(135deg, #eef5fd 0%, #f7fbff 50%, #eaf1fa 100%);
+    background-attachment: fixed;
+    background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+    animation: bgDrift 26s ease-in-out infinite alternate;
+}
+
+@keyframes bgDrift {
+    0%   { background-position: 0% 0%, 100% 0%, 80% 100%, 0 0; }
+    100% { background-position: 30% 20%, 70% 30%, 50% 70%, 0 0; }
 }
 
 /* ---------- Card ---------- */
@@ -49,12 +64,18 @@ body {
     width: 100%;
     max-width: 480px;
     background-color: var(--card-bg);
-    border: 1px solid var(--line);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: var(--radius);
     margin: 0 auto;
     padding: 0;
     box-shadow: var(--shadow);
     overflow: hidden;
+    animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.985); }
+    to   { opacity: 1; transform: none; }
 }
 
 /* Accent strip running across the top of the card (brand gradient) */
@@ -62,16 +83,16 @@ body {
     content: "";
     display: block;
     height: 6px;
-    background: linear-gradient(90deg, var(--navy) 0%, var(--blue) 60%, var(--accent) 100%);
+    background: linear-gradient(90deg, var(--navy) 0%, var(--blue) 55%, var(--accent) 100%);
 }
 
 /* ---------- Header / logo ---------- */
 #wrapper {
     width: 100%;
     text-align: center;
-    padding: 30px 32px 22px;
+    padding: 32px 32px 26px;
     border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, #f4f9ff 0%, #ffffff 100%);
+    background: linear-gradient(180deg, #f1f8ff 0%, #ffffff 100%);
 }
 
 #logo {
@@ -80,21 +101,45 @@ body {
     align-items: center;
 }
 
-/* Keep the QZone logo proportional regardless of inline width/height attrs */
+/* Logo sits on a clean white "chip" so it reads well on any backdrop */
+#logo::after { content: none; }
+
 #logo img {
     width: auto !important;
     height: auto !important;
-    max-width: 78%;
-    max-height: 110px;
+    max-width: 80%;
+    max-height: 108px;
     object-fit: contain;
+    padding: 12px 18px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 26px -12px rgba(27, 58, 95, 0.4);
 }
 
 #title {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 19px;
+    font-weight: 700;
     color: var(--navy);
     text-align: center;
-    margin: 16px 0 0;
+    margin: 18px 0 0;
+    letter-spacing: 0.2px;
+}
+
+/* Brand underline accent beneath the title */
+#title::after {
+    content: "";
+    display: block;
+    width: 54px;
+    height: 3px;
+    margin: 10px auto 0;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--blue) 0%, var(--accent) 100%);
+}
+
+#tagline {
+    margin-top: 10px;
+    font-size: 13.5px;
+    color: var(--muted);
     letter-spacing: 0.2px;
 }
 
@@ -102,27 +147,22 @@ body {
     clear: both;
 }
 
-/* ---------- Body sections ---------- */
-#content > div:not(#wrapper),
-#content > p,
-#content > table,
-#content > hr,
-#content > br {
-    margin-left: 32px;
-    margin-right: 32px;
+/* ---------- Main content column ---------- */
+#main {
+    padding: 26px 32px 24px;
 }
 
 #description {
     color: var(--muted);
-    margin-top: 22px;
+    margin-top: 4px;
     text-align: center;
     font-size: 15px;
 }
 
 /* ---------- Terms ---------- */
 #terms {
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--navy);
     margin-top: 20px;
     margin-bottom: 8px;
@@ -132,18 +172,18 @@ body {
     width: auto;
     min-height: 50px;
     max-height: 180px;
-    background-color: #f4f7fb;
+    background-color: #f4f8fd;
     border: 1px solid var(--line);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: auto;
-    padding: 12px 14px;
+    padding: 13px 15px;
     font-size: 14px;
     color: var(--muted);
 }
 
 /* ---------- Login form ---------- */
 #login {
-    margin: 22px 32px 8px;
+    margin: 22px 0 6px;
 }
 
 #login form {
@@ -155,15 +195,6 @@ body {
     border-collapse: collapse;
 }
 
-#login td {
-    padding: 7px 0;
-    vertical-align: middle;
-    color: var(--navy);
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Labels stack above inputs for a clean, mobile-friendly layout */
 #login tr {
     display: flex;
     flex-direction: column;
@@ -173,6 +204,11 @@ body {
 #login td {
     display: block;
     width: 100%;
+    padding: 7px 0;
+    vertical-align: middle;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 500;
 }
 
 #login input[type="text"],
@@ -182,7 +218,7 @@ body {
     font-size: 16px;
     color: var(--ink);
     border: 1.5px solid var(--line);
-    border-radius: 10px;
+    border-radius: 12px;
     background: #fbfcfe;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
     outline: none;
@@ -191,16 +227,16 @@ body {
 #login input[type="text"]:focus,
 #login input[type="password"]:focus {
     border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.22);
+    box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.25);
     background: #ffffff;
 }
 
 #login input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin: 2px 10px 0 0;
+    width: 19px;
+    height: 19px;
+    margin: 1px 11px 0 0;
     flex: 0 0 auto;
-    accent-color: var(--blue);
+    accent-color: var(--blue-bright);
     cursor: pointer;
 }
 
@@ -209,24 +245,25 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 0;
-    padding: 14px 16px;
+    padding: 15px 16px;
     margin-bottom: 16px;
-    background: #f4f7fb;
+    background: linear-gradient(180deg, #f5f9fe 0%, #eef5fd 100%);
     border: 1.5px solid var(--line);
-    border-radius: 10px;
+    border-radius: 12px;
     font-size: 14px;
     color: var(--navy);
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 #accept-label:hover {
     border-color: var(--blue-light);
+    background: linear-gradient(180deg, #eef6ff 0%, #e6f1fc 100%);
 }
 
 #accept-label:focus-within {
     border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.22);
+    box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.25);
 }
 
 #accept-label span {
@@ -237,22 +274,22 @@ body {
 #login input[type="submit"] {
     width: 100%;
     margin-top: 10px;
-    padding: 13px 18px;
+    padding: 14px 18px;
     font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
     color: #ffffff;
-    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue-bright) 55%, var(--blue) 100%);
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    box-shadow: 0 8px 18px -6px rgba(27, 58, 95, 0.55);
-    transition: transform 0.08s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 12px 26px -8px rgba(27, 58, 95, 0.6);
+    transition: transform 0.08s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 #login input[type="submit"]:hover {
-    filter: brightness(1.06);
-    box-shadow: 0 10px 22px -6px rgba(27, 58, 95, 0.6);
+    filter: brightness(1.08) saturate(1.05);
+    box-shadow: 0 16px 30px -8px rgba(27, 58, 95, 0.65);
 }
 
 #login input[type="submit"]:active {
@@ -270,26 +307,34 @@ body {
 }
 
 /* ---------- Logged-in / status table ---------- */
-#content table:not(#login table) {
-    width: auto;
+#main table {
+    width: 100%;
     border-collapse: collapse;
     margin-top: 8px;
+    background: #f7fafe;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
 }
 
-#content table:not(#login table) td {
-    padding: 8px 10px;
+#main table td {
+    padding: 11px 14px;
     border-bottom: 1px solid var(--line);
     font-size: 14px;
     color: var(--ink);
 }
 
-#content table:not(#login table) td:first-child {
+#main table tr:last-child td {
+    border-bottom: none;
+}
+
+#main table td:first-child {
     color: var(--muted);
     white-space: nowrap;
 }
 
 a {
-    color: var(--blue);
+    color: var(--blue-bright);
     font-weight: 600;
     text-decoration: none;
 }
@@ -302,6 +347,8 @@ a:hover {
 hr {
     border: none;
     border-top: 1px solid var(--line);
+    margin-left: 0;
+    margin-right: 0;
 }
 
 /* ---------- Footer ---------- */
@@ -309,13 +356,115 @@ hr {
     font-size: 13px;
     color: var(--muted);
     text-align: center;
-    padding-bottom: 6px;
+    padding-bottom: 2px;
 }
 
-/* ---------- Responsive ---------- */
+/* ============================================================
+   DESKTOP — proportional two-panel split layout
+   ============================================================ */
+@media (min-width: 880px) {
+    body {
+        padding: 40px;
+    }
+
+    #content {
+        max-width: 940px;
+        display: grid;
+        grid-template-columns: 0.92fr 1.08fr;
+        align-items: stretch;
+    }
+
+    /* Top accent strip spans both panels */
+    #content::before {
+        grid-column: 1 / -1;
+    }
+
+    /* Left = vivid brand panel, vertically centered */
+    #wrapper {
+        grid-column: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 44px 38px;
+        border-bottom: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+        background:
+            radial-gradient(520px 360px at 22% 18%, rgba(91, 155, 213, 0.55), transparent 60%),
+            radial-gradient(420px 320px at 85% 88%, rgba(227, 52, 47, 0.30), transparent 60%),
+            linear-gradient(150deg, var(--navy) 0%, var(--navy-deep) 100%);
+    }
+
+    /* Soft decorative glow ring on the brand panel */
+    #wrapper::after {
+        content: "";
+        position: absolute;
+        width: 240px;
+        height: 240px;
+        right: -90px;
+        top: -70px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(143, 192, 232, 0.35), transparent 70%);
+        pointer-events: none;
+    }
+
+    #wrapper > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    #title {
+        color: #ffffff;
+        font-size: 21px;
+        margin-top: 22px;
+    }
+
+    #title::after {
+        background: linear-gradient(90deg, var(--blue-light) 0%, var(--accent-soft) 100%);
+    }
+
+    #tagline {
+        color: rgba(233, 242, 251, 0.82);
+        font-size: 14px;
+        max-width: 260px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #logo img {
+        max-width: 86%;
+        max-height: 120px;
+    }
+
+    /* Right = content column */
+    #main {
+        grid-column: 2;
+        padding: 40px 44px 34px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #description {
+        text-align: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    #content {
+        max-width: 1040px;
+    }
+}
+
+/* ============================================================
+   MOBILE refinements
+   ============================================================ */
 @media (max-width: 540px) {
     body {
-        padding: 14px 12px;
+        padding: 16px 12px;
         align-items: flex-start;
     }
 
@@ -324,34 +473,25 @@ hr {
     }
 
     #wrapper {
-        padding: 24px 20px 18px;
+        padding: 26px 20px 22px;
     }
 
     #logo img {
-        max-width: 86%;
-        max-height: 90px;
+        max-width: 88%;
+        max-height: 92px;
     }
 
     #title {
-        font-size: 16px;
+        font-size: 17px;
     }
 
-    #content > div:not(#wrapper),
-    #content > p,
-    #content > table,
-    #content > hr {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
-    #login {
-        margin-left: 20px;
-        margin-right: 20px;
+    #main {
+        padding: 22px 20px 22px;
     }
 }
 
-@media (min-width: 768px) {
-    #content {
-        max-width: 520px;
-    }
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    body { animation: none; }
+    #content { animation: none; }
 }
