@@ -11,7 +11,9 @@
       "Bash(awk 'NR==15{print NR\": [BASE64 IMAGE - \"length\\($0\\)\" chars omitted]\"; next} {print NR\": \"$0}' default_template.html)",
       "Bash(awk 'NR==15{ gsub\\(/base64,[^\"]*/,\"base64,...OMITTED...\"\\); print }' default_template.html)",
       "Bash(google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --window-size=1180,760 --screenshot=/tmp/claude-1000/-home-it-admin-Downloads-login-template/e267f553-6754-497a-a5c6-8ad0edb3912e/scratchpad/desktop2.png file:///tmp/claude-1000/-home-it-admin-Downloads-login-template/e267f553-6754-497a-a5c6-8ad0edb3912e/scratchpad/preview.html)",
-      "Bash(google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --window-size=414,896 --screenshot=/tmp/claude-1000/-home-it-admin-Downloads-login-template/e267f553-6754-497a-a5c6-8ad0edb3912e/scratchpad/mobile2.png file:///tmp/claude-1000/-home-it-admin-Downloads-login-template/e267f553-6754-497a-a5c6-8ad0edb3912e/scratchpad/preview.html)"
+      "Bash(google-chrome --headless --no-sandbox --disable-gpu --hide-scrollbars --force-device-scale-factor=2 --window-size=414,896 --screenshot=/tmp/claude-1000/-home-it-admin-Downloads-login-template/e267f553-6754-497a-a5c6-8ad0edb3912e/scratchpad/mobile2.png file:///tmp/claude-1000/-home-it-admin-Downloads-login-template/e267f553-6754-497a-a5c6-8ad0edb3912e/scratchpad/preview.html)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
