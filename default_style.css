@@ -222,7 +222,6 @@ body {
     display: block;
     width: 100%;
     padding: 7px 0;
-    vertical-align: middle;
     color: var(--ink);
     font-size: 14px;
     font-weight: 500;
@@ -320,6 +319,17 @@ body {
 
 /* Disabled until the user accepts the terms */
 #login input[type="submit"]:disabled {
+    background: #28394c;
+    color: #6b7d92;
+    box-shadow: none;
+    cursor: not-allowed;
+    filter: none;
+    transform: none;
+}
+
+#login input[type="submit"]:disabled:hover,
+#login input[type="submit"]:disabled:focus,
+#login input[type="submit"]:disabled:active {
     background: #28394c;
     color: #6b7d92;
     box-shadow: none;
