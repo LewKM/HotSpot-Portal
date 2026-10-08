@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="expires" content="-1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#142c48" />
+<title>Qzone-IPM Staff WiFi</title>
+<style>
+/* ============================================================
+   Qzone Integrated Pest Management — Staff WiFi sign-in
+   Self-contained on purpose: devices have no internet access
+   before signing in, so no external fonts, scripts or images.
+   ============================================================ */
+:root {
+     color-scheme: light;
+     --navy: #1b3a5f;
+     --navy-deep: #0f2238;
+     --navy-mid: #23507f;
+     --blue: #4f8fcc;
+     --blue-pale: #9cc4ea;
+     --blue-soft: #eaf2fb;
+     --accent: #e3342f;
+     --ink: #1f2d3b;
+     --muted: #5f6f82;
+     --line: #e3e9f0;
+     --field: #f7f9fc;
+     --radius: 22px;
+     --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+     --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+html, body { min-height: 100%; }
+
+body {
+     min-height: 100vh;
+     margin: 0;
+     padding: 40px 20px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     color: var(--ink);
+     font-family: var(--sans);
+     font-size: 15px;
+     line-height: 1.55;
+     background-color: #e9f0f8;
+     background-image:
+          radial-gradient(1100px 620px at 100% 0%, rgba(79, 143, 204, 0.26), transparent 62%),
+          radial-gradient(900px 560px at 0% 100%, rgba(27, 58, 95, 0.20), transparent 60%),
+          linear-gradient(160deg, #f6f9fd 0%, #e6eef7 100%);
+     background-attachment: fixed;
+     overflow-x: hidden;
+}
+
+/* ---------- Shell: brand panel + sign-in panel ---------- */
+#portal {
+     position: relative;
+     display: grid;
+     grid-template-columns: 1.05fr 1fr;
+     width: min(100%, 940px);
+     overflow: hidden;
+     background: #ffffff;
+     border-radius: var(--radius);
+     box-shadow:
+          0 1px 2px rgba(15, 34, 56, 0.06),
+          0 40px 80px -30px rgba(15, 34, 56, 0.45),
+          0 0 0 1px rgba(15, 34, 56, 0.05);
+}
+
+/* ---------- Brand panel ---------- */
+#brand {
+     position: relative;
+     display: flex;
+     flex-direction: column;
+     padding: 46px 44px 40px;
+     overflow: hidden;
+     color: #ffffff;
+     background:
+          radial-gradient(520px 380px at 110% 105%, rgba(79, 143, 204, 0.55), transparent 65%),
+          radial-gradient(420px 300px at -20% -10%, rgba(156, 196, 234, 0.18), transparent 60%),
+          linear-gradient(155deg, var(--navy-deep) 0%, var(--navy) 55%, var(--navy-mid) 100%);
+}
+
+/* Sweeping lines echoing the logo */
+#brand .swoosh {
+     position: absolute;
+     right: -90px;
+     bottom: -30px;
+     width: 560px;
+     max-width: none;
+     pointer-events: none;
+}
+
+/* Thin brand-gradient rule on the panel's inner edge */
+#brand::after {
+     position: absolute;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     width: 3px;
+     content: "";
+     background: linear-gradient(180deg, var(--blue-pale) 0%, var(--blue) 65%, var(--accent) 100%);
+     opacity: 0.85;
+}
+
+.eyebrow {
+     position: relative;
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     color: var(--blue-pale);
+     font-size: 11.5px;
+     font-weight: 700;
+     letter-spacing: 0.22em;
+     text-transform: uppercase;
+}
+.eyebrow::before {
+     width: 26px;
+     height: 2px;
+     content: "";
+     background: var(--accent);
+     border-radius: 2px;
+}
+
+.greeting {
+     position: relative;
+     margin: 26px 0 0;
+     font-family: var(--serif);
+     font-size: 40px;
+     font-weight: 400;
+     line-height: 1.12;
+     letter-spacing: -0.01em;
+}
+.greeting em {
+     display: block;
+     color: var(--blue-pale);
+     font-style: italic;
+}
+
+.intro {
+     position: relative;
+     max-width: 340px;
+     margin: 18px 0 0;
+     color: rgba(255, 255, 255, 0.78);
+     font-size: 15px;
+}
+
+.perks {
+     position: relative;
+     margin: 30px 0 0;
+     padding: 0;
+     list-style: none;
+}
+.perks li {
+     display: flex;
+     align-items: center;
+     gap: 14px;
+     padding: 9px 0;
+     color: rgba(255, 255, 255, 0.92);
+     font-size: 14px;
+}
+.perks li + li { border-top: 1px solid rgba(255, 255, 255, 0.09); }
+.perks .ico {
+     display: inline-flex;
+     flex: 0 0 auto;
+     align-items: center;
+     justify-content: center;
+     width: 34px;
+     height: 34px;
+     border: 1px solid rgba(156, 196, 234, 0.35);
+     border-radius: 10px;
+     background: rgba(255, 255, 255, 0.07);
+}
+.perks svg { width: 17px; height: 17px; color: var(--blue-pale); }
+
+.brand-foot {
+     position: relative;
+     margin-top: auto;
+     padding-top: 34px;
+     color: rgba(255, 255, 255, 0.6);
+     font-size: 12.5px;
+}
+.brand-foot strong { color: #ffffff; font-weight: 600; }
+
+/* ---------- Sign-in panel ---------- */
+#signin {
+     display: flex;
+     flex-direction: column;
+     padding: 42px 44px 30px;
+     background: linear-gradient(180deg, #fbfdff 0%, #ffffff 40%);
+}
+
+#company-logo {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     min-height: 90px;
+}
+#company-logo img {
+     display: block;
+     width: 220px;
+     max-width: 80%;
+     height: auto;
+     object-fit: contain;
+}
+
+.panel-title {
+     margin: 24px 0 2px;
+     color: var(--navy);
+     font-size: 22px;
+     font-weight: 700;
+     letter-spacing: -0.01em;
+     text-align: center;
+}
+
+.lead {
+     margin: 0 0 24px;
+     color: var(--muted);
+     font-size: 14px;
+     text-align: center;
+}
+
+/* ---------- Login form (injected by the firewall) ---------- */
+#__loginbox { width: 100%; min-height: 40px; }
+#__loginbox form { margin: 0; }
+
+/* Stack label and field vertically, whatever table layout the firewall injects */
+#__loginbox table,
+#__loginbox tbody,
+#__loginbox tr,
+#__loginbox td {
+     display: block;
+     width: 100%;
+}
+#__loginbox table { border-collapse: collapse; }
+#__loginbox td {
+     padding: 0;
+     color: var(--navy);
+     font-size: 13px;
+     font-weight: 650;
+     letter-spacing: 0.02em;
+     text-align: left;
+}
+#__loginbox tr + tr { margin-top: 2px; }
+
+#__loginbox label {
+     color: var(--navy);
+     font-size: 13.5px;
+     font-weight: 600;
+}
+
+#__loginbox input[type="text"],
+#__loginbox input[type="password"],
+#__loginbox input[type="email"],
+#__loginbox input[type="tel"],
+#__loginbox select {
+     display: block;
+     width: 100%;
+     min-height: 50px;
+     margin: 7px 0 16px;
+     padding: 12px 16px;
+     color: var(--ink);
+     font: inherit;
+     font-size: 16px; /* prevents iOS zoom on focus */
+     font-weight: 400;
+     letter-spacing: normal;
+     border: 1.5px solid #d6dfe9;
+     border-radius: 12px;
+     background: var(--field);
+     outline: none;
+     -webkit-appearance: none;
+     appearance: none;
+     transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+#__loginbox input::placeholder { color: #9aa8b8; }
+
+#__loginbox input[type="text"]:hover,
+#__loginbox input[type="password"]:hover,
+#__loginbox input[type="email"]:hover,
+#__loginbox input[type="tel"]:hover { border-color: #b4c3d3; }
+
+#__loginbox input[type="text"]:focus,
+#__loginbox input[type="password"]:focus,
+#__loginbox input[type="email"]:focus,
+#__loginbox input[type="tel"]:focus,
+#__loginbox select:focus {
+     border-color: var(--blue);
+     background: #ffffff;
+     box-shadow: 0 0 0 4px rgba(79, 143, 204, 0.16);
+}
+
+#__loginbox input[type="checkbox"],
+#__loginbox input[type="radio"] {
+     width: 18px;
+     height: 18px;
+     margin: 0 9px 0 0;
+     vertical-align: -3px;
+     accent-color: var(--navy);
+     cursor: pointer;
+}
+
+#__loginbox input[type="submit"],
+#__loginbox input[type="button"],
+#__loginbox button {
+     display: block;
+     width: 100%;
+     min-height: 52px;
+     margin: 12px 0 4px;
+     padding: 13px 18px;
+     color: #ffffff;
+     font: inherit;
+     font-size: 16px;
+     font-weight: 650;
+     letter-spacing: 0.04em;
+     border: 0;
+     border-radius: 12px;
+     background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 45%, var(--navy-mid) 100%);
+     box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          0 14px 26px -12px rgba(15, 34, 56, 0.75);
+     cursor: pointer;
+     -webkit-appearance: none;
+     appearance: none;
+     transition: transform 0.08s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+#__loginbox input[type="submit"]:hover,
+#__loginbox input[type="button"]:hover,
+#__loginbox button:hover {
+     filter: brightness(1.12);
+     box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.12),
+          0 18px 30px -12px rgba(15, 34, 56, 0.8);
+}
+
+#__loginbox input[type="submit"]:active,
+#__loginbox input[type="button"]:active,
+#__loginbox button:active { transform: translateY(1px); }
+
+#__loginbox input[type="submit"]:focus-visible,
+#__loginbox input[type="button"]:focus-visible,
+#__loginbox button:focus-visible {
+     outline: 3px solid rgba(79, 143, 204, 0.55);
+     outline-offset: 2px;
+}
+
+#__loginbox input:disabled,
+#__loginbox button:disabled {
+     cursor: not-allowed;
+     filter: none;
+     opacity: 0.55;
+     box-shadow: none;
+}
+
+#__loginbox a { color: #24649f; font-weight: 600; text-decoration: none; }
+#__loginbox a:hover { text-decoration: underline; }
+
+/* Messages the firewall may print (errors, notices) */
+#__loginbox font,
+#__loginbox .error,
+#__loginbox .message,
+#__loginbox span[style*="red"],
+#__loginbox font[color] {
+     display: block;
+     margin: 0 0 12px;
+     font-size: 14px;
+     font-weight: 500;
+}
+
+/* ---------- Below the form ---------- */
+.assure {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     margin: 20px 0 0;
+     color: var(--muted);
+     font-size: 12.5px;
+     text-align: center;
+}
+.assure svg { flex: 0 0 auto; width: 14px; height: 14px; color: #2f8a5b; }
+
+#portal-footer {
+     margin-top: auto;
+     padding-top: 22px;
+     color: #8392a3;
+     text-align: center;
+     font-size: 12px;
+}
+#portal-footer .rule {
+     display: block;
+     width: 100%;
+     height: 1px;
+     margin-bottom: 16px;
+     background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+}
+
+.page-note {
+     margin: 22px 0 0;
+     color: #7d8b9b;
+     font-size: 12px;
+     letter-spacing: 0.04em;
+     text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+     * { transition: none !important; }
+}
+
+/* ---------- Tablet / phone: stack panels ---------- */
+@media (max-width: 820px) {
+     body { justify-content: flex-start; padding: 20px 14px; }
+     #portal { grid-template-columns: 1fr; width: min(100%, 480px); border-radius: 18px; }
+     #brand { padding: 26px 26px 24px; }
+     #brand::after { top: auto; left: 0; width: auto; height: 3px; background: linear-gradient(90deg, var(--blue-pale), var(--blue) 65%, var(--accent)); }
+     #brand .swoosh { width: 380px; right: -110px; bottom: -70px; opacity: 0.8; }
+     .greeting { margin-top: 14px; font-size: 27px; }
+     .greeting em { display: inline; white-space: nowrap; }
+     .intro { margin-top: 8px; font-size: 14px; }
+     .perks, .brand-foot { display: none; }
+     #signin { padding: 30px 24px 22px; }
+     #company-logo { min-height: 70px; }
+     #company-logo img { width: 190px; }
+     .panel-title { margin-top: 18px; font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<main id="portal">
+
+<section id="brand" aria-label="Qzone-IPM staff network">
+     <svg class="swoosh" viewBox="0 0 600 300" fill="none" stroke-linecap="round" aria-hidden="true">
+          <path d="M20 290 C 190 170, 380 100, 595 78" stroke="#9cc4ea" stroke-width="9" opacity=".28"/>
+          <path d="M70 300 C 240 200, 410 145, 590 130" stroke="#ffffff" stroke-width="5" opacity=".12"/>
+          <path d="M120 310 C 290 235, 440 190, 598 182" stroke="#4f8fcc" stroke-width="7" opacity=".40"/>
+     </svg>
+
+     <span class="eyebrow">Qzone-IPM &middot; Staff WiFi</span>
+     <h1 class="greeting"><span id="greet">Welcome back,</span> <em>team Qzone.</em></h1>
+     <p class="intro">Sign in with your staff credentials to get on the secure company network.</p>
+
+     <ul class="perks">
+          <li>
+               <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.8a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16.1a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor"/></svg></span>
+               Fast, reliable office connectivity
+          </li>
+          <li>
+               <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
+               Protected by the company firewall
+          </li>
+          <li>
+               <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></span>
+               One staff account, all your devices
+          </li>
+     </ul>
+
+     <p class="brand-foot"><strong>Qzone Integrated Pest Management Limited</strong><br />Authorised staff only. Usage is subject to company IT policy.</p>
+</section>
+
+<section id="signin">
+     <div id="company-logo"><img src="data:image/png;base64,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" alt="Qzone Integrated Pest Management Limited" /></div>
+     <h2 class="panel-title">Staff sign-in</h2>
+     <p class="lead">Use your Qzone-IPM username and password.</p>
+
+     <div id="__loginbox"></div>
+
+     <p class="assure">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+               <rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          </svg>
+          Encrypted, secure sign-in
+     </p>
+
+     <footer id="portal-footer">
+          <span class="rule"></span>
+          Trouble signing in? Contact the IT department.
+     </footer>
+</section>
+
+</main>
+
+<p class="page-note">&copy; <span id="year">2026</span> Qzone-IPM &middot; Staff WiFi</p>
+
+<div id="request-url" style="display:none;">{url}</div>
+<script>
+var redirect_url = document.getElementById("request-url").innerHTML;
+(function () {
+     var now = new Date(), h = now.getHours();
+     document.getElementById("year").innerHTML = now.getFullYear();
+     document.getElementById("greet").innerHTML =
+          h < 12 ? "Good morning," : h < 17 ? "Good afternoon," : "Good evening,";
+})();
+</script>
+</body></html>
